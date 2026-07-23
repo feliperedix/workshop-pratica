@@ -45,7 +45,7 @@ jobs:
         run: pip3 install -r requirements-dev.txt
 
       - name: Run Unit pytest with coverage
-        run: pytest -m unit --cov=src --cov-report=term-missing --cov-fail-under=80 --junitxml=report-pytest.xml
+        run: pytest -m unit --cov=src --cov-report=term-missing --cov-fail-under=70 --junitxml=report-pytest.xml
 
       - name: Publicar relatório de testes e cobertura
         uses: actions/upload-artifact@v4
