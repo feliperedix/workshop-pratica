@@ -28,3 +28,14 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:${{ github.ref_name }}
             ghcr.io/${{ github.repository }}:${{ github.sha }}
+  deploy:
+    runs-on: self-hosted     # roda no runner registrado na sua máquina
+    needs: build-push        # só depois do push da imagem
+    steps:
+      - name: Pull da imagem publicada
+        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+
+      - name: Sobe o container (deploy idempotente)
+        run: |
+          docker rm -f calculadora || true
+          docker run -d --name calculadora -p 8080:8080 ghcr.io/${{ github.repository }}:${{ github.ref_name }}
